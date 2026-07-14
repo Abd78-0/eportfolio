@@ -130,8 +130,11 @@
     .ref-actions{display:flex;gap:8px;align-items:center}
     .btn{background:var(--accent);border:0;padding:8px 12px;border-radius:8px;color:white;cursor:pointer}
     .reflection{background:rgba(255,255,255,0.45);border-radius:12px;padding:16px;border:1px solid rgba(79,58,36,0.12);min-height:180px}
-    .reflection .title-link{display:inline-block;font-weight:700;font-size:16px;color:var(--accent);text-decoration:none;margin-bottom:8px;line-height:1.4}
-    .reflection .title-link:hover{color:#f7e7c4;text-decoration:underline}
+    .reflection .title-link{display:inline-flex;align-items:center;flex-wrap:wrap;gap:8px;font-weight:700;font-size:16px;color:var(--accent);text-decoration:none;margin-bottom:8px;line-height:1.4;cursor:pointer}
+    .reflection .title-link:hover{color:#f7e7c4;text-decoration:none}
+    .reflection .title-link .title-label{display:inline-block}
+    .reflection .title-link .video-hint{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#7b5a2e;background:rgba(255,255,255,0.65);padding:4px 8px;border:1px solid rgba(79,58,36,0.12);border-radius:999px}
+    .reflection .title-link:hover .video-hint{background:rgba(247,231,196,0.9);color:#5b401f}
     .reflection textarea{width:100%;min-height:156px;border:0;resize:none;padding:10px;background:transparent;font-size:15px;color:#4b3a2a;outline:none}
 
     /* Projects */
@@ -447,7 +450,7 @@ I have moved from building a static site in Project 0 to dynamic web apps in Pro
             <h3>Lecture Reflections</h3>
           </div>
           <div class="ref-note">
-            Lecture videos are available on <a href="https://www.youtube.com/watch?v=Nn7EX3zkGUo&list=PLhQjrBD2T380xvFSUmToMMzERZ3qB5Ueu" target="_blank" rel="noopener">YouTube</a> or the <a href="https://cs50.harvard.edu/web/" target="_blank" rel="noopener">CS50 website</a>.
+            Each lecture title below is clickable and opens the matching video. Videos are available on <a href="https://www.youtube.com/watch?v=Nn7EX3zkGUo&list=PLhQjrBD2T380xvFSUmToMMzERZ3qB5Ueu" target="_blank" rel="noopener">YouTube</a> or the <a href="https://cs50.harvard.edu/web/" target="_blank" rel="noopener">CS50 website</a>.
           </div>
           <div class="reflections" id="reflectionsContainer">
             <!-- reflection items inserted here -->
@@ -562,7 +565,17 @@ I have moved from building a static site in Project 0 to dynamic web apps in Pro
         titleLink.href = videoUrl;
         titleLink.target = '_blank';
         titleLink.rel = 'noopener';
-        titleLink.textContent = titleText;
+
+        const titleLabel = document.createElement('span');
+        titleLabel.className='title-label';
+        titleLabel.textContent = titleText;
+        titleLink.appendChild(titleLabel);
+
+        const videoHint = document.createElement('span');
+        videoHint.className='video-hint';
+        videoHint.textContent='▶ Open video';
+        titleLink.appendChild(videoHint);
+
         wrap.appendChild(titleLink);
       } else {
         const title = document.createElement('div');
@@ -579,20 +592,23 @@ I have moved from building a static site in Project 0 to dynamic web apps in Pro
       return wrap;
     }
     // create 9 reflection boxes: first 5 pre-filled, last 4 empty
-    createReflection('Lecture 0 – HTML & CSS', `This lecture introduced the basics of building web pages with HTML for structure and CSS for styling. I learned how responsive design makes a site adapt to different devices, such as phones and PCs. Bootstrap was also introduced as a ready‑made CSS framework that provides consistent layouts and components. Finally, I explored Sass, an extension of CSS that allows variables and nesting, making styles easier to manage.`, 'https://www.youtube.com/results?search_query=CS50W+Lecture+0+HTML+CSS');
+    createReflection('Lecture 0 – HTML & CSS', `This lecture introduced the basics of building web pages with HTML for structure and CSS for styling. I learned how responsive design makes a site adapt to different devices, such as phones and PCs. Bootstrap was also introduced as a ready‑made CSS framework that provides consistent layouts and components. Finally, I explored Sass, an extension of CSS that allows variables and nesting, making styles easier to manage.`, 'https://youtu.be/zFZrkCIc2Oc?si=wi6-FEDSQ9mCIY3y');
 
-    createReflection('Lecture 1 – Git', `Here I learned about Git and GitHub, tools for version control and collaboration. Git helps developers track changes and work together without overwriting each other’s code. I practiced commands like:\n\n- git clone\n- git add\n- git commit\n- git push\n- git pull\n\nThis showed me how commits act like snapshots, making it easier to roll back or review progress.`, 'https://www.youtube.com/results?search_query=CS50W+Lecture+1+Git');
+    createReflection('Lecture 1 – Git', `Here I learned about Git and GitHub, tools for version control and collaboration. Git helps developers track changes and work together without overwriting each other’s code. I practiced commands like:\n\n- git clone\n- git add\n- git commit\n- git push\n- git pull\n\nThis showed me how commits act like snapshots, making it easier to roll back or review progress.`, 'https://youtu.be/NcoBAfJ6l2Q?si=x1NNFaer3wgPUX6_');
 
-    createReflection('Lecture 2 – Python', `Most of this lecture felt familiar since I had already studied Python earlier. Still, I learned more about libraries that extend Python’s functionality and how classes support object‑oriented programming. This is especially useful in web applications where reusable structures are needed.`, 'https://www.youtube.com/results?search_query=CS50W+Lecture+2+Python');
+    createReflection('Lecture 2 – Python', `Most of this lecture felt familiar since I had already studied Python earlier. Still, I learned more about libraries that extend Python’s functionality and how classes support object‑oriented programming. This is especially useful in web applications where reusable structures are needed.`, 'https://youtu.be/EOLPQdVj5Ac?si=f1xQ8vZyWR6XUTMi');
 
-    createReflection('Lecture 3 – Django', `This lecture shifted from static websites to dynamic web applications using Django. I learned how HTTP connects clients and servers, and how routes map requests to functions. Django uses views (views.py) for logic and templates for rendering HTML. Sessions were also introduced, which allow user identification and features like login systems.`, 'https://www.youtube.com/results?search_query=CS50W+Lecture+3+Django');
+    createReflection('Lecture 3 – Django', `This lecture shifted from static websites to dynamic web applications using Django. I learned how HTTP connects clients and servers, and how routes map requests to functions. Django uses views (views.py) for logic and templates for rendering HTML. Sessions were also introduced, which allow user identification and features like login systems.`, 'https://youtu.be/w8q0C-C1js4?si=YeMG6igIRuzmnwA0');
 
     createReflection('Lecture 4 – SQL, Models & Migration', `This lecture introduced databases and how Django connects to them. I learned about three common SQL systems: MySQL, PostgreSQL, and SQLite3 (which is used in CS50W for simplicity). SQL itself is a language for managing data, and I practiced creating, editing, and joining queries to work with multiple tables.
 
-  Django makes this easier through models, which are Python classes that represent database tables. Instead of writing raw SQL, I can define models and then use **migrations** to update the database schema automatically. Another highlight was the Django admin site, which provides a built‑in interface to add, edit, and manage data. Finally, I learned how Django simplifies user management, making it straightforward to create accounts, handle logins, and manage permissions.`, 'https://www.youtube.com/results?search_query=CS50W+Lecture+4+SQL+Models+Migration');
+  Django makes this easier through models, which are Python classes that represent database tables. Instead of writing raw SQL, I can define models and then use **migrations** to update the database schema automatically. Another highlight was the Django admin site, which provides a built‑in interface to add, edit, and manage data. Finally, I learned how Django simplifies user management, making it straightforward to create accounts, handle logins, and manage permissions.`, 'https://youtu.be/YzP164YANAU?si=uW1NoOwo7wRdYryk');
 
     // remaining empty reflections
-    for(let i=0;i<4;i++) createReflection();
+    createReflection('Lecture 5 – JavaScript', '', 'https://youtu.be/x5trGVMKTdY?si=C8JWyWZmgfc5624J');
+    createReflection('Lecture 6 – User Interfaces', '', 'https://youtu.be/jrBhi8wbzPw?si=ww6OsErnOk7QX2gr');
+    createReflection('Lecture 7 – Testing and CI/CD', '', 'https://youtu.be/WbRDkJ4lPdY?si=tgol-xLFjndJvBVh');
+    createReflection('Lecture 8 – Scalability and Security', '', 'https://youtu.be/6PWTxRGh_dk?si=G1K0cOmh8erM0QHI');
 
     // Projects: create tabs for Project 0, 1, and 2
     const projects = [
@@ -669,4 +685,3 @@ I have moved from building a static site in Project 0 to dynamic web apps in Pro
   </script>
 </body>
 </html>
-
