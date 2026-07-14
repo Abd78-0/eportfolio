@@ -6,18 +6,20 @@
   <title>My ePortfolio</title>
   <style>
     :root{
-      --bg:#3a0f0f; /* deep maroon */
-      --card:#171616; /* near-black card */
-      --muted:#d8c7c7; /* light muted text */
-      --accent:#8b2b2b; /* accent maroon */
-      --accent-2:#5b1515; /* darker accent */
-      --shadow: 0 10px 30px rgba(0,0,0,0.5);
+      --bg:#f7ebcf; /* cream background */
+      --card:#efe2b7; /* slightly darker cream card */
+      --muted:#5f4830; /* warm brown text */
+      --accent:#4d3a24; /* deep brown accent */
+      --accent-2:#7a603e; /* muted brown */
+      --shadow: 0 10px 30px rgba(84,58,25,0.16);
       --radius:12px;
       --max-width:980px;
       font-family:Inter,Segoe UI,Helvetica,Arial,sans-serif;
     }
     *{box-sizing:border-box}
-    body{margin:0;background:linear-gradient(180deg,var(--bg),#2a0a0a);color:#f6efe9}
+    a{color:var(--accent);transition:color .2s ease}
+    a:hover,a:focus-visible{color:#f7e7c4}
+    body{margin:0;background:linear-gradient(180deg,var(--bg),#e8d8a8);color:#2f2417}
     .wrap{max-width:var(--max-width);margin:36px auto;padding:24px}
     header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
     h1{font-size:20px;margin:0}
@@ -27,52 +29,245 @@
     .avatar .name{font-size:14px;color:var(--muted)}
 
     /* Card */
-    .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+    .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;border:1px solid rgba(79,58,36,0.12)}
 
     /* Tabs */
     .tabs{display:flex;gap:8px;margin:18px 0}
     .tab-btn{background:transparent;border:0;padding:10px 14px;border-radius:10px;color:var(--muted);cursor:pointer;font-weight:600}
-    .tab-btn.active{background:#444;color:#fff}
+    .tab-btn.active,.tab-btn:hover{background:#d9c38d;color:#2f2417}
 
     .content{margin-top:12px}
 
-    /* About / PDF box */
-    .intro{display:flex;gap:18px;flex-wrap:wrap}
-    .intro .left{flex:1;min-width:240px}
-    .pdf-box{width:420px;max-width:100%;height:420px;border-radius:10px;overflow:auto;border:1px solid rgba(255,255,255,0.06);background:#0f0d0d}
+    /* About / Word document sections */
+    .intro{display:flex;flex-direction:column;gap:20px}
+    .about-full{width:100%}
+    .about-intro-card,
+    .about-gl-card{
+      width:min(100%,860px);
+      margin:0 auto;
+      padding:28px 30px;
+      border-radius:24px;
+      background:rgba(255,255,255,0.45);
+      border:1px solid rgba(79,58,36,0.12);
+      box-shadow:var(--shadow);
+      text-align:center;
+      animation:fadeInUp 0.8s ease-out both;
+    }
+    .about-intro-card h3,
+    .about-gl-card h4{
+      margin:0 0 12px;
+      color:var(--accent);
+      font-size:1.6rem;
+      letter-spacing:0.01em;
+    }
+    .about-intro-card p,
+    .about-gl-card p{
+      margin:0 auto 12px;
+      max-width:720px;
+      color:var(--muted);
+      line-height:1.8;
+      font-size:1rem;
+    }
+    .about-gl-card{animation-delay:0.2s}
+    .doc-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:16px;
+      width:min(100%,880px);
+      margin:0 auto;
+      animation:fadeInUp 0.8s ease-out 0.35s both;
+    }
+    .doc-card{
+      padding:18px;
+      border-radius:18px;
+      background:rgba(255,255,255,0.45);
+      border:1px solid rgba(79,58,36,0.12);
+      box-shadow:var(--shadow);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      min-height:520px;
+      max-height:760px;
+    }
+    .doc-card h4{margin:0;color:var(--accent)}
+    .doc-card p{margin:0;color:var(--muted);line-height:1.6}
+    .doc-preview{
+      flex:1;
+      min-height:360px;
+      max-height:600px;
+      border-radius:12px;
+      overflow:hidden;
+      border:1px solid rgba(79,58,36,0.12);
+      background:#f5edd3;
+    }
+    .doc-preview iframe{
+      width:100%;
+      height:100%;
+      border:0;
+      background:#fff;
+    }
+    .doc-link-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 12px;
+      border-radius:999px;
+      background:var(--accent);
+      color:#fff;
+      text-decoration:none;
+      font-weight:600;
+      transition:transform .2s ease, background .2s ease;
+    }
+    .doc-link-btn:hover,.doc-link-btn:focus-visible{background:#6c5332;color:#fff;transform:translateY(-2px)}
+    .pdf-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .pdf-card{background:rgba(255,255,255,0.4);border:1px solid rgba(79,58,36,0.12);border-radius:14px;padding:14px}
+    .pdf-box{width:100%;height:320px;border-radius:10px;overflow:auto;border:1px solid rgba(79,58,36,0.12);background:#f5edd3}
     .pdf-box iframe{width:100%;height:100%;border:0}
+    .pdf-caption{font-size:12px;color:var(--muted);margin-top:6px}
 
     /* Reflections */
     .reflections{display:flex;flex-direction:column;gap:14px}
     .ref-actions{display:flex;gap:8px;align-items:center}
     .btn{background:var(--accent);border:0;padding:8px 12px;border-radius:8px;color:white;cursor:pointer}
-    .reflection{background:#1b1a1a;border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,0.04)}
-    .reflection input.title{font-weight:700;border:0;background:transparent;font-size:16px;color:#fff;outline:none;width:100%}
-    .reflection textarea{width:100%;min-height:120px;border:0;resize:none;padding:10px;background:transparent;font-size:15px;color:#fff;outline:none}
+    .reflection{background:rgba(255,255,255,0.45);border-radius:12px;padding:16px;border:1px solid rgba(79,58,36,0.12);min-height:180px}
+    .reflection .title-link{display:inline-block;font-weight:700;font-size:16px;color:var(--accent);text-decoration:none;margin-bottom:8px;line-height:1.4}
+    .reflection .title-link:hover{color:#f7e7c4;text-decoration:underline}
+    .reflection textarea{width:100%;min-height:156px;border:0;resize:none;padding:10px;background:transparent;font-size:15px;color:#4b3a2a;outline:none}
 
     /* Projects */
     .projects-list{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
     .project-tab{background:rgba(255,255,255,0.05);color:var(--muted);border:1px solid rgba(255,255,255,0.08);padding:11px 14px;border-radius:14px;cursor:pointer;transition:transform .18s ease,background .18s ease,color .18s ease,box-shadow .18s ease}
     .project-tab:hover{transform:translateY(-1px);background:rgba(255,255,255,0.1);color:#fff}
     .project-tab.active{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;box-shadow:0 10px 25px rgba(0,0,0,0.25)}
-    .project-detail{padding:18px;border-radius:18px;border:1px solid rgba(255,255,255,0.08);background:linear-gradient(180deg,#141214,#161316 45%,#1d191b);color:#f5f1ec;box-shadow:var(--shadow)}
+    .project-detail{padding:18px;border-radius:18px;border:1px solid rgba(79,58,36,0.12);background:linear-gradient(180deg,#f2e1b0,#e8d39a 45%,#e5d1a0);color:#3f2f1e;box-shadow:var(--shadow)}
     .project-detail h4{margin-top:0;margin-bottom:10px;letter-spacing:.02em}
-    .project-detail p{line-height:1.7;color:#e5ded6;margin-bottom:14px}
+    .project-detail p{line-height:1.7;color:#4b3a2a;margin-bottom:14px}
     .project-meta{display:flex;flex-wrap:wrap;gap:10px;font-size:13px;color:var(--muted);margin-bottom:14px}
-    .project-note, .ref-note{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:14px 16px;margin-bottom:16px;font-size:15px;line-height:1.7;color:#f8f2eb}
-    .project-note a, .ref-note a{color:#ffb6c1;text-decoration:none;font-weight:600}
-    .project-note a:hover, .ref-note a:hover{text-decoration:underline;color:#e05580}
-    .project-meta span{background:rgba(255,255,255,0.05);padding:6px 10px;border-radius:999px}
-    .project-detail a#projLink{color:#ffb6c1;text-decoration:none;font-weight:600}
-    .project-detail a#projLink:hover{color:#e05580;text-decoration:underline}
+    .project-note, .ref-note{background:rgba(255,255,255,0.45);border:1px solid rgba(79,58,36,0.12);border-radius:14px;padding:14px 16px;margin-bottom:16px;font-size:15px;line-height:1.7;color:#463523}
+    .project-note a, .ref-note a{color:var(--accent);text-decoration:none;font-weight:600}
+    .project-note a:hover, .ref-note a:hover{text-decoration:underline;color:#f7e7c4}
+    .project-meta span{background:rgba(255,255,255,0.55);padding:6px 10px;border-radius:999px}
+    .project-detail a#projLink{color:var(--accent);text-decoration:none;font-weight:600}
+    .project-detail a#projLink:hover{color:#f7e7c4;text-decoration:underline}
 
     footer{margin-top:22px;font-size:13px;color:var(--muted);text-align:center}
 
-    @media (max-width:720px){.intro{flex-direction:column}.pdf-box{height:320px}}
+    /* About Section Animations */
+    .about-animated{animation:fadeInUp 0.8s ease-out forwards;opacity:0}
+    .about-animated:nth-child(1){animation-delay:0.1s}
+    .about-animated:nth-child(2){animation-delay:0.3s}
+    .about-animated:nth-child(3){animation-delay:0.5s}
+    
+    /* Learning Logs */
+    .learning-logs{margin-top:30px;padding-top:20px;border-top:1px solid rgba(79,58,36,0.12);animation:fadeInUp 0.8s ease-out 0.7s forwards;opacity:0}
+    .learning-logs h4{font-size:16px;margin-top:0;margin-bottom:16px;color:var(--accent)}
+    .learning-log-header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+    .learning-log-tabs{display:flex;gap:8px;flex-wrap:wrap}
+    .learning-log-tab{background:rgba(255,255,255,0.45);border:1px solid rgba(79,58,36,0.12);padding:8px 12px;border-radius:999px;cursor:pointer;color:var(--muted);font-weight:600}
+    .learning-log-tab.active{background:#d9c38d;color:#2f2417}
+    .learning-log-panel{display:none}
+    .learning-log-panel.active{display:block}
+    .logs-grid{display:grid;gap:12px;margin-top:12px}
+    .log-row{display:grid;grid-template-columns:70px minmax(0,1.1fr) minmax(0,2.3fr) minmax(0,1.1fr);gap:8px;align-items:stretch;grid-auto-rows:1fr}
+    .log-stage{display:grid;place-items:center;background:#d9c38d;border-radius:10px;padding:10px 6px;font-weight:700;color:#2f2417;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;min-height:220px;letter-spacing:0.04em;height:100%}
+    .log-row:nth-child(1) .log-stage{min-height:440px}
+    .log-row:nth-child(2) .log-stage{min-height:770px}
+    .log-card{background:rgba(255,255,255,0.45);border:1px solid rgba(79,58,36,0.12);border-radius:12px;padding:12px;display:flex;flex-direction:column;min-height:220px;height:100%}
+    .log-card .label{font-size:11px;font-weight:700;text-transform:uppercase;color:var(--accent);margin-bottom:6px;letter-spacing:0.06em}
+    .log-card input{background:transparent;border:0;color:#3f2f1e;font-weight:600;font-size:14px;width:100%;padding:0 0 8px 0;border-bottom:1px solid rgba(79,58,36,0.16);outline:none;margin-bottom:8px}
+    .log-card textarea{background:transparent;border:0;color:#4b3a2a;font-size:13px;width:100%;min-height:180px;height:auto;resize:none;outline:none;flex:1;white-space:pre-wrap;overflow:visible;line-height:1.6}
+    .log-card textarea::placeholder{color:rgba(95,72,48,0.6)}
+    .log-card.student-log{min-width:0}
+    
+    /* GL Proposal PDF */
+    .gl-proposal-section{margin-top:30px;animation:fadeInUp 0.8s ease-out 0.9s forwards;opacity:0}
+    .gl-proposal-section h4{margin-top:0;margin-bottom:12px;color:var(--accent)}
+    
+    /* Animated Greeting Section */
+    .greeting-hero{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:24px 20px;background:linear-gradient(135deg,var(--bg),#e4d2a4);cursor:pointer;transition:transform .3s ease, box-shadow .3s ease}
+    .greeting-hero:hover,.greeting-hero:focus-visible{transform:translateY(-3px);box-shadow:inset 0 0 0 1px rgba(79,58,36,0.08)}
+    .greeting-hero.hidden{display:none}
+
+    .greeting-content{display:grid;grid-template-columns:minmax(0,7fr) minmax(240px,3fr);align-items:center;gap:28px;max-width:1100px;width:100%}
+    .greeting-copy{text-align:left}
+    .greeting-text{font-size:clamp(2.4rem,4.3vw,3.6rem);font-weight:700;margin-bottom:24px;letter-spacing:0.02em;line-height:1.15;max-width:700px}
+    .greeting-text .hello{animation:fadeInSlide 1s ease-out forwards;color:var(--accent)}
+    .greeting-text .my-name{animation:fadeInSlide 1s ease-out 0.3s forwards;opacity:0}
+
+    .greeting-photo-card{display:flex;align-items:center;justify-content:center;animation:fadeInScale 0.8s ease-out 1.5s forwards;opacity:0}
+    .greeting-photo-card img{width:min(320px,100%);max-height:360px;object-fit:cover;border-radius:16px;border:2px solid rgba(79,58,36,0.18);box-shadow:var(--shadow)}
+    .photo-fallback{width:min(320px,100%);min-height:260px;border:2px dashed rgba(79,58,36,0.25);border-radius:16px;background:rgba(255,255,255,0.35);display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;color:var(--muted);font-size:15px;line-height:1.6}
+
+    .welcome-message{font-size:clamp(1.3rem,2.2vw,2rem);font-weight:600;margin-top:24px;color:var(--muted);animation:fadeInUp 1s ease-out 2.2s forwards;opacity:0;letter-spacing:0.01em;text-align:left}
+    .welcome-message strong{color:var(--accent)}
+
+    .scroll-prompt{margin-top:50px;animation:float 2s ease-in-out infinite 3.5s;opacity:0;cursor:pointer}
+    .scroll-prompt.visible{opacity:1}
+    .scroll-arrow{font-size:28px;animation:bounce 1.5s ease-in-out infinite}
+    .scroll-text{font-size:14px;color:var(--muted);margin-top:10px}
+    
+    @keyframes fadeInSlide{
+      from{opacity:0;transform:translateY(30px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+    @keyframes fadeInScale{
+      from{opacity:0;transform:scale(0.8)}
+      to{opacity:1;transform:scale(1)}
+    }
+    @keyframes fadeInUp{
+      from{opacity:0;transform:translateY(20px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+    @keyframes float{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-15px)}
+    }
+    @keyframes bounce{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(10px)}
+    }
+
+    @media (max-width:720px){
+      .greeting-hero{min-height:auto;padding:60px 20px}
+      .greeting-text{font-size:2rem}
+      .upload-circle{width:150px;height:150px}
+      .upload-label{font-size:36px}
+      .welcome-message{font-size:1.2rem}
+      .pdf-row{grid-template-columns:1fr}
+      .pdf-box{height:280px}
+      .log-row{grid-template-columns:60px 1fr 1fr 1fr}
+      .log-stage{min-height:120px}
+    }
   </style>
   </head>
 <body>
-  <div class="wrap">
+  <!-- Animated Greeting Section -->
+  <div class="greeting-hero" id="greetingHero" role="button" tabindex="0" aria-label="Enter the portfolio">
+    <div class="greeting-content">
+      <div class="greeting-copy">
+        <div class="greeting-text">
+          <div class="hello">Hello,</div>
+          <div class="my-name">my name is <strong>Abdul Hamid</strong></div>
+        </div>
+
+        <div class="welcome-message">
+          Welcome to my <strong>GL e-Portfolio</strong> page
+        </div>
+      </div>
+
+      <div class="greeting-photo-card">
+        <img id="heroPhoto" src="my_photo.png" alt="Abdul Hamid photo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="photo-fallback" id="photoFallback" style="display:none">Add your PNG photo<br>named <strong>my_photo.png</strong><br>in the same folder.</div>
+      </div>
+    </div>
+
+    <div class="scroll-prompt" id="scrollPrompt">
+      <div class="scroll-arrow">⬇</div>
+      <div class="scroll-text">Click to enter the portfolio</div>
+    </div>
+  </div>
+
+  <div class="wrap" id="mainContent">
     <header>
       <div>
         <h1>My ePortfolio</h1>
@@ -96,20 +291,153 @@
 
       <div class="content">
         <section id="about" class="panel">
-          <div class="intro">
-            <div class="left">
+          <div class="intro about-animated">
+            <div class="about-intro-card">
               <h3>About Me</h3>
               <p>Hello — I'm <strong>Abdul Hamid</strong>. I am a Year 2 Mechatronics student at Temasek Polytechnic. This page documents my journey of guided learning — the reflections I’ve made and the projects I’ve worked on along the way.</p>
+            </div>
+
+            <div class="about-gl-card">
               <h4>About Guided Learning</h4>
               <p>Guided Learning is a TPFun subject that encourages students to take initiative in exploring new areas of knowledge. It provides the freedom to pick up new skills, dive into unfamiliar subjects, or even work on real‑world projects.</p>
               <p>For my Guided Learning project, I chose to study full‑stack development through Harvard’s CS50W course. As an engineering student, I am passionate about problem‑solving and understanding the building blocks that power systems “under the hood.” Beyond that, I aspire to develop IoT applications, such as smart device control, where hardware and software meet to create practical solutions.</p>
             </div>
-            <div>
-              <h4>My Learning Contract</h4>
-              <div class="pdf-box" title="Place my_learning_contract.pdf in the same folder to view">
-                <iframe id="pdfViewer" src="my_learning_contract.pdf"></iframe>
+
+            <div class="doc-grid">
+              <div class="doc-card">
+                <h4>My Learning Contract</h4>
+                <div class="doc-preview" title="Preview of my learning contract PDF">
+                  <iframe src="my_learning_contract.pdf" title="My Learning Contract PDF"></iframe>
+                </div>
+                <a class="doc-link-btn" href="my_learning_contract.pdf" target="_blank" rel="noopener">Open Learning Contract</a>
               </div>
-              <div style="font-size:12px;color:var(--muted);margin-top:6px">If the PDF does not show, put <strong>my_learning_contract.pdf</strong> in the same folder as this page.</div>
+
+              <div class="doc-card">
+                <h4>GL Proposal</h4>
+                <div class="doc-preview" title="Preview of the GL proposal PDF">
+                  <iframe src="gl_proposal.pdf" title="GL Proposal PDF"></iframe>
+                </div>
+                <a class="doc-link-btn" href="gl_proposal.pdf" target="_blank" rel="noopener">Open GL Proposal</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="learning-logs about-animated">
+            <div class="learning-log-header">
+              <h4>Learning Log</h4>
+              <div class="learning-log-tabs" role="tablist" aria-label="Learning log views">
+                <button class="learning-log-tab active" data-panel="learningLogWritten">Summary</button>
+                <button class="learning-log-tab" data-panel="learningLogPdf">PDF</button>
+              </div>
+            </div>
+
+            <div id="learningLogPdf" class="learning-log-panel" style="display:none">
+              <div class="pdf-card">
+                <div class="pdf-box" title="Place learning_log.pdf in the same folder to view">
+                  <iframe id="learningLogViewer" src="learning_log.pdf"></iframe>
+                </div>
+                <div class="pdf-caption">If the PDF does not show, put <strong>learning_log.pdf</strong> in the same folder as this page.</div>
+              </div>
+            </div>
+
+            <div id="learningLogWritten" class="learning-log-panel active" style="display:block">
+              <p style="font-size:14px;color:var(--muted);margin-bottom:16px">To view the PDF version (submitted in LMS), please switch to the PDF tab.</p>
+              <div class="logs-grid" id="logsContainer">
+                <div class="log-row">
+                  <div class="log-stage">PLAN</div>
+                  <div class="log-card consultation">
+                    <div class="label">Consultation 1</div>
+                    <div style="margin-top:8px;display:flex;flex-direction:column;gap:6px;font-size:13px;color:#4b3a2a;line-height:1.5;">
+                      <div>Connect with Learning Facilitator</div>
+                      <div>Establish GL expectations</div>
+                      <div>Tasks for Refined Learning proposal discussed, agreed for production</div>
+                    </div>
+                  </div>
+                  <div class="log-card student-log">
+                    <div class="label">Student log</div>
+                    <textarea>Key points discussed:
+
+- Roadmap to complete my GL
+- How I will produce my e-portfolio and what to include in it
+- Refinement of my learning contract
+- Micro-adjustments to the learning roadmap
+
+What I must produce for the next session: I will present my work on Project 0 and Project 1 as evidence of my progression.</textarea>
+                  </div>
+                  <div class="log-card datetime">
+                    <div class="label">Date/Time/Venue</div>
+                    <div style="display:flex;flex-direction:column;gap:6px;font-size:14px;color:#3f2f1e;line-height:1.5;">
+                      <div>23/04/2026</div>
+                      <div>3:00 pm</div>
+                      <div>MS Team</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="log-row">
+                  <div class="log-stage">PERFORM</div>
+                  <div class="log-card consultation">
+                    <div class="label">Consultation 2</div>
+                    <div style="margin-top:8px;display:flex;flex-direction:column;gap:6px;font-size:13px;color:#4b3a2a;line-height:1.5;">
+                      <div>Assigned Tasks for Research on project, project work and e-Portfolio curation completed</div>
+                      <div>Next steps to progress research, project work and e-Portfolio curation discussed and agreed for production</div>
+                      <div>Tasks to monitor progress and close gaps in research, project work and e-Portfolio curation discussed and agreed for production</div>
+                    </div>
+                  </div>
+                  <div class="log-card student-log">
+                    <div class="label">Student log</div>
+                    <textarea>Key Points Discussed:
+
+We outlined the structure of the e-portfolio and the sections to include, such as project documentation and reflections. Projects 0, 1, and 2 were reviewed, with suggestions to improve Project 0’s webpage design and usability.
+
+What I Must Produce for Next Session:
+
+I need to complete Project 2 and begin populating learning evidence—screenshots, code snippets, and reflections—into the e-portfolio.
+
+Reflection on My Learning Progress So Far:
+
+I have moved from building a static site in Project 0 to dynamic web apps in Projects 1 and 2, which strengthened my understanding of Django and Python’s object-oriented programming. A key challenge has been debugging across multiple files, but reading Django’s error codes has helped me troubleshoot more effectively. Going forward, I aim to improve error tracing and expand into advanced topics such as user interface design, scalability, and cybersecurity.</textarea>
+                  </div>
+                  <div class="log-card datetime">
+                    <div class="label">Date/Time/Venue</div>
+                    <div style="display:flex;flex-direction:column;gap:6px;font-size:14px;color:#3f2f1e;line-height:1.5;">
+                      <div>07/01/2026</div>
+                      <div>1:00 pm</div>
+                      <div>MS Team</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="log-row">
+                  <div class="log-stage">MONITOR</div>
+                  <div class="log-card consultation">
+                    <div class="label">Consultation 3</div>
+                  </div>
+                  <div class="log-card student-log">
+                    <div class="label">Student log</div>
+                    <textarea placeholder="Write student log here..."></textarea>
+                  </div>
+                  <div class="log-card datetime">
+                    <div class="label">Date/Time/Venue</div>
+                    <input placeholder="Date / Time / Venue" />
+                  </div>
+                </div>
+
+                <div class="log-row">
+                  <div class="log-stage">REFLECT</div>
+                  <div class="log-card consultation">
+                    <div class="label">Consultation 4</div>
+                  </div>
+                  <div class="log-card student-log">
+                    <div class="label">Student log</div>
+                    <textarea placeholder="Write student log here..."></textarea>
+                  </div>
+                  <div class="log-card datetime">
+                    <div class="label">Date/Time/Venue</div>
+                    <input placeholder="Date / Time / Venue" />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -147,6 +475,45 @@
   </div>
 
   <script>
+    // Greeting Section: Show scroll prompt after welcome message
+    setTimeout(()=>{
+      const scrollPrompt = document.querySelector('.scroll-prompt');
+      if(scrollPrompt) scrollPrompt.classList.add('visible');
+    }, 3500);
+
+    // Greeting Section: make the hero a clickable entry point into the portfolio
+    const greetingHero = document.getElementById('greetingHero');
+    const wrap = document.getElementById('mainContent');
+    const scrollPrompt = document.getElementById('scrollPrompt');
+
+    const enterPortfolio = () => {
+      if (!wrap) return;
+      wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(() => {
+        greetingHero?.classList.add('hidden');
+      }, 700);
+    };
+
+    if (greetingHero) {
+      greetingHero.addEventListener('click', enterPortfolio);
+      greetingHero.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          enterPortfolio();
+        }
+      });
+    }
+
+    if (scrollPrompt) {
+      scrollPrompt.addEventListener('click', enterPortfolio);
+    }
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 120 && greetingHero) {
+        greetingHero.classList.add('hidden');
+      }
+    });
+
     // Tab switching
     document.querySelectorAll('.tab-btn').forEach(btn=>btn.addEventListener('click', (e)=>{
       document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -156,31 +523,73 @@
       document.getElementById(tab).style.display='block';
     }));
 
+    // Learning Logs: keep the pre-built table visible when the Written tab is selected
+    const logsContainer = document.getElementById('logsContainer');
+    if(logsContainer && !logsContainer.querySelector('.log-row')){
+      const stages = ['PLAN','PERFORM','MONITOR','REFLECT'];
+      for(let i=0;i<4;i++){
+        const row = document.createElement('div'); row.className='log-row';
+        const stage = document.createElement('div'); stage.className='log-stage'; stage.textContent = stages[i];
+        row.appendChild(stage);
+        const columns = [
+          {label:'Consultation', placeholder:'Consultation topic', className:'consultation'},
+          {label:'Student log', placeholder:'Write student log here...', className:'student-log'},
+          {label:'Date/Time/Venue', placeholder:'Date / Time / Venue', className:'datetime'}
+        ];
+        columns.forEach(col=>{
+          const card = document.createElement('div'); card.className=`log-card ${col.className}`;
+          const label = document.createElement('div'); label.className='label'; label.textContent = col.label;
+          if(col.className === 'student-log'){
+            const textarea = document.createElement('textarea'); textarea.placeholder = col.placeholder;
+            card.appendChild(label); card.appendChild(textarea);
+          } else {
+            const input = document.createElement('input'); input.placeholder = col.placeholder;
+            card.appendChild(label); card.appendChild(input);
+          }
+          row.appendChild(card);
+        });
+        logsContainer.appendChild(row);
+      }
+    }
+
     // Reflections: add editable boxes that auto-resize
     const reflectionsContainer = document.getElementById('reflectionsContainer');
-    function createReflection(titleText='yet to be watched', contentText=''){
+    function createReflection(titleText='yet to be watched', contentText='', videoUrl=''){
       const wrap = document.createElement('div'); wrap.className='reflection';
-      const title = document.createElement('input'); title.className='title'; title.value = titleText; title.placeholder='Title (click to edit)';
+      if(videoUrl){
+        const titleLink = document.createElement('a');
+        titleLink.className='title-link';
+        titleLink.href = videoUrl;
+        titleLink.target = '_blank';
+        titleLink.rel = 'noopener';
+        titleLink.textContent = titleText;
+        wrap.appendChild(titleLink);
+      } else {
+        const title = document.createElement('div');
+        title.className='title-link';
+        title.textContent = titleText;
+        wrap.appendChild(title);
+      }
       const ta = document.createElement('textarea'); ta.placeholder='Write your reflection here...'; ta.value = contentText;
       ta.addEventListener('input', ()=>{ta.style.height='auto'; ta.style.height = (ta.scrollHeight)+'px';});
       // initialize height
       setTimeout(()=>{ta.style.height = (ta.scrollHeight)+'px';},10);
-      wrap.appendChild(title); wrap.appendChild(ta);
+      wrap.appendChild(ta);
       reflectionsContainer.appendChild(wrap);
       return wrap;
     }
     // create 9 reflection boxes: first 5 pre-filled, last 4 empty
-    createReflection('Lecture 0 – HTML & CSS', `This lecture introduced the basics of building web pages with HTML for structure and CSS for styling. I learned how responsive design makes a site adapt to different devices, such as phones and PCs. Bootstrap was also introduced as a ready‑made CSS framework that provides consistent layouts and components. Finally, I explored Sass, an extension of CSS that allows variables and nesting, making styles easier to manage.`);
+    createReflection('Lecture 0 – HTML & CSS', `This lecture introduced the basics of building web pages with HTML for structure and CSS for styling. I learned how responsive design makes a site adapt to different devices, such as phones and PCs. Bootstrap was also introduced as a ready‑made CSS framework that provides consistent layouts and components. Finally, I explored Sass, an extension of CSS that allows variables and nesting, making styles easier to manage.`, 'https://www.youtube.com/results?search_query=CS50W+Lecture+0+HTML+CSS');
 
-    createReflection('Lecture 1 – Git', `Here I learned about Git and GitHub, tools for version control and collaboration. Git helps developers track changes and work together without overwriting each other’s code. I practiced commands like:\n\n- git clone\n- git add\n- git commit\n- git push\n- git pull\n\nThis showed me how commits act like snapshots, making it easier to roll back or review progress.`);
+    createReflection('Lecture 1 – Git', `Here I learned about Git and GitHub, tools for version control and collaboration. Git helps developers track changes and work together without overwriting each other’s code. I practiced commands like:\n\n- git clone\n- git add\n- git commit\n- git push\n- git pull\n\nThis showed me how commits act like snapshots, making it easier to roll back or review progress.`, 'https://www.youtube.com/results?search_query=CS50W+Lecture+1+Git');
 
-    createReflection('Lecture 2 – Python', `Most of this lecture felt familiar since I had already studied Python earlier. Still, I learned more about libraries that extend Python’s functionality and how classes support object‑oriented programming. This is especially useful in web applications where reusable structures are needed.`);
+    createReflection('Lecture 2 – Python', `Most of this lecture felt familiar since I had already studied Python earlier. Still, I learned more about libraries that extend Python’s functionality and how classes support object‑oriented programming. This is especially useful in web applications where reusable structures are needed.`, 'https://www.youtube.com/results?search_query=CS50W+Lecture+2+Python');
 
-    createReflection('Lecture 3 – Django', `This lecture shifted from static websites to dynamic web applications using Django. I learned how HTTP connects clients and servers, and how routes map requests to functions. Django uses views (views.py) for logic and templates for rendering HTML. Sessions were also introduced, which allow user identification and features like login systems.`);
+    createReflection('Lecture 3 – Django', `This lecture shifted from static websites to dynamic web applications using Django. I learned how HTTP connects clients and servers, and how routes map requests to functions. Django uses views (views.py) for logic and templates for rendering HTML. Sessions were also introduced, which allow user identification and features like login systems.`, 'https://www.youtube.com/results?search_query=CS50W+Lecture+3+Django');
 
     createReflection('Lecture 4 – SQL, Models & Migration', `This lecture introduced databases and how Django connects to them. I learned about three common SQL systems: MySQL, PostgreSQL, and SQLite3 (which is used in CS50W for simplicity). SQL itself is a language for managing data, and I practiced creating, editing, and joining queries to work with multiple tables.
 
-  Django makes this easier through models, which are Python classes that represent database tables. Instead of writing raw SQL, I can define models and then use **migrations** to update the database schema automatically. Another highlight was the Django admin site, which provides a built‑in interface to add, edit, and manage data. Finally, I learned how Django simplifies user management, making it straightforward to create accounts, handle logins, and manage permissions.`);
+  Django makes this easier through models, which are Python classes that represent database tables. Instead of writing raw SQL, I can define models and then use **migrations** to update the database schema automatically. Another highlight was the Django admin site, which provides a built‑in interface to add, edit, and manage data. Finally, I learned how Django simplifies user management, making it straightforward to create accounts, handle logins, and manage permissions.`, 'https://www.youtube.com/results?search_query=CS50W+Lecture+4+SQL+Models+Migration');
 
     // remaining empty reflections
     for(let i=0;i<4;i++) createReflection();
@@ -190,18 +599,21 @@
       {
         id:0,
         title:'Project 0',
+        problemLink:'https://cs50.harvard.edu/web/projects/0/search',
         intro:`Project 0 – Search\n\nWhat it’s about:\nBuilding a simplified version of Google’s search interface.\n\n- Three pages: \`index.html\` (Google Search), \`images.html\` (Image Search), \`advanced.html\` (Advanced Search).\n- Centered search bar with rounded corners, buttons beneath.\n- Links in the top-right to switch between pages.\n- Functions: normal search, image search, advanced search with four fields, and “I’m Feeling Lucky.”\n- CSS should resemble Google’s clean style.`,
         link:'https://github.com/Abd78-0/CS50W/tree/main/search'
       },
       {
         id:1,
         title:'Project 1',
+        problemLink:'https://cs50.harvard.edu/web/projects/1/wiki/',
         intro:`Project 1 – Wiki\n\nWhat it’s about:\nCreating a Wikipedia-like encyclopedia using Django and Markdown.\n\n- Each entry stored as a Markdown file, converted to HTML when displayed.\n- Pages:\n  - Entry Page: /wiki/TITLE shows entry content or error if not found.\n  - Index Page: lists all entries with clickable links.\n  - Search: exact match redirects to entry, substring match shows results list.\n  - New Page: form to create new entries, with error handling for duplicates.\n  - Edit Page: edit existing entries with pre-filled content.\n  - Random Page: loads a random entry.\n- Markdown → HTML conversion using markdown2 or custom regex.`,
         link:'https://github.com/Abd78-0/CS50W/tree/main/wiki'
       },
       {
         id:2,
         title:'Project 2',
+        problemLink:'https://cs50.harvard.edu/web/projects/2/commerce/',
         intro:`Project 2 – Commerce (Auctions)\n\nWhat it’s about:\nBuilding an online auction site with Django.\n\n- Models: at least three (Listings, Bids, Comments) plus User.\n- Features:\n  - Create Listing: title, description, starting bid, optional image and category.\n  - Active Listings Page: shows all current auctions.\n  - Listing Page: details, bidding, watchlist, comments, closing auctions.\n  - Watchlist: personalized list of saved auctions.\n  - Categories: filter listings by category.\n  - Admin Interface: manage listings, bids, comments.\n- Authentication: login, logout, register.\n- Bidding rules: must meet or exceed starting bid and be higher than existing bids.\n- Closing auctions: creator can close, highest bidder wins.`,
         link:'https://github.com/Abd78-0/CS50W/tree/main/commerce'
       }
@@ -216,7 +628,7 @@
       btn.addEventListener('click', ()=>{
         document.querySelectorAll('.project-tab').forEach(b=>b.classList.remove('active'));
         btn.classList.add('active');
-        projTitle.textContent = p.title;
+        projTitle.innerHTML = `${p.title} <a href="${p.problemLink}" target="_blank" rel="noopener" style="font-size:13px;margin-left:8px;color:var(--accent);text-decoration:underline;">Read full problem statement</a>`;
         projIntro.textContent = p.intro;
         projIntro.style.whiteSpace = 'pre-wrap';
         projLink.href = p.link;
@@ -238,13 +650,23 @@
       nameDisplay.replaceWith(input); input.focus();
     });
 
-    // Optional: try to display PDF without blocking if not available
-    const pdfFrame = document.getElementById('pdfViewer');
-    pdfFrame.addEventListener('error', ()=>{
-      // show fallback message
-      const box = pdfFrame.parentElement; box.innerHTML = '<div style="padding:18px;color:var(--muted)">PDF not found. Place <strong>my_learning_contract.pdf</strong> next to this file to view here.</div>';
-    });
+    // Learning log tab switching
+    document.querySelectorAll('.learning-log-tab').forEach(btn=>btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.learning-log-tab').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const panelId = btn.dataset.panel;
+      document.querySelectorAll('.learning-log-panel').forEach(panel=>{
+        panel.classList.remove('active');
+        panel.style.display = 'none';
+      });
+      const activePanel = document.getElementById(panelId);
+      activePanel.classList.add('active');
+      activePanel.style.display = 'block';
+    }));
+
+    // Document links now open Word files directly, so no PDF error handlers are needed.
 
   </script>
 </body>
 </html>
+
