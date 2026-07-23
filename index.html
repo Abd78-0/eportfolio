@@ -135,7 +135,9 @@
     .reflection .title-link .title-label{display:inline-block}
     .reflection .title-link .video-hint{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#7b5a2e;background:rgba(255,255,255,0.65);padding:4px 8px;border:1px solid rgba(79,58,36,0.12);border-radius:999px}
     .reflection .title-link:hover .video-hint{background:rgba(247,231,196,0.9);color:#5b401f}
-    .reflection textarea{width:100%;min-height:156px;border:0;resize:none;padding:10px;background:transparent;font-size:15px;color:#4b3a2a;outline:none}
+    .reflection-text{white-space:pre-wrap;line-height:1.7;color:#4b3a2a;font-size:15px;margin:0}
+    .back-to-top{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:10px 14px;border:0;border-radius:999px;background:var(--accent);color:#fff;cursor:pointer;font-weight:600;box-shadow:var(--shadow)}
+    .back-to-top:hover,.back-to-top:focus-visible{background:#6c5332;color:#fff}
 
     /* Projects */
     .projects-list{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
@@ -515,7 +517,18 @@ I have moved from building a static site in Project 0 to dynamic web apps in Pro
       if (window.scrollY > 120 && greetingHero) {
         greetingHero.classList.add('hidden');
       }
+      const backToTopBtn = document.getElementById('backToTopBtn');
+      if (backToTopBtn) {
+        backToTopBtn.style.display = window.scrollY > 300 ? 'inline-flex' : 'none';
+      }
     });
+
+    const backToTopBtn = document.getElementById('backToTopBtn');
+    if (backToTopBtn) {
+      backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
 
     // Tab switching
     document.querySelectorAll('.tab-btn').forEach(btn=>btn.addEventListener('click', (e)=>{
@@ -583,11 +596,10 @@ I have moved from building a static site in Project 0 to dynamic web apps in Pro
         title.textContent = titleText;
         wrap.appendChild(title);
       }
-      const ta = document.createElement('textarea'); ta.placeholder='Write your reflection here...'; ta.value = contentText;
-      ta.addEventListener('input', ()=>{ta.style.height='auto'; ta.style.height = (ta.scrollHeight)+'px';});
-      // initialize height
-      setTimeout(()=>{ta.style.height = (ta.scrollHeight)+'px';},10);
-      wrap.appendChild(ta);
+      const textBlock = document.createElement('p');
+      textBlock.className='reflection-text';
+      textBlock.textContent = contentText;
+      wrap.appendChild(textBlock);
       reflectionsContainer.appendChild(wrap);
       return wrap;
     }
@@ -605,12 +617,22 @@ I have moved from building a static site in Project 0 to dynamic web apps in Pro
   Django makes this easier through models, which are Python classes that represent database tables. Instead of writing raw SQL, I can define models and then use **migrations** to update the database schema automatically. Another highlight was the Django admin site, which provides a built‑in interface to add, edit, and manage data. Finally, I learned how Django simplifies user management, making it straightforward to create accounts, handle logins, and manage permissions.`, 'https://youtu.be/YzP164YANAU?si=uW1NoOwo7wRdYryk');
 
     // remaining empty reflections
-    createReflection('Lecture 5 – JavaScript', '', 'https://youtu.be/x5trGVMKTdY?si=C8JWyWZmgfc5624J');
-    createReflection('Lecture 6 – User Interfaces', '', 'https://youtu.be/jrBhi8wbzPw?si=ww6OsErnOk7QX2gr');
+    createReflection('Lecture 5 – JavaScript', `This lecture introduced **JavaScript** as a client-side language for handling web interactions directly in the browser, without needing to request data from the server for every action. We explored how **event listeners** work in JavaScript, using tools like \`querySelector\` to target elements and perform **DOM manipulation** — changing the structure and content of a webpage dynamically.
+
+It also demonstrated how static webpages can simulate memory by storing and retrieving values within the browser, allowing for interactive behavior without server calls.
+
+Finally, we looked at **APIs (Application Programming Interfaces)**, which enable communication between the client and server. Through web requests, data is exchanged in **JSON (JavaScript Object Notation)** format, making it easy for our applications to interpret and display information.`, 'https://youtu.be/x5trGVMKTdY?si=C8JWyWZmgfc5624J');
+    createReflection('Lecture 6 – User Interfaces', `This lecture was a continuation of the previous topic on **frontend web manipulation using JavaScript**. We were introduced to **JSX (JavaScript XML)**, which is a syntax extension that allows us to write HTML-like code directly inside JavaScript. JSX makes it easier to build user interfaces by combining markup and logic in a more readable way.
+
+The lecture also covered different programming paradigms: **imperative programming**, where we explicitly tell the computer step-by-step what to do, and **declarative programming**, where we describe the desired outcome and let the framework handle the details. Understanding this distinction makes JavaScript usage more powerful, especially when working with modern libraries.
+
+We explored simple techniques for adding **scrolling effects and animations**, showing how JavaScript can enhance user experience beyond static content.
+
+Finally, we were introduced to **React**, a popular JavaScript framework for building dynamic user interfaces. React uses a component-based architecture, allowing developers to break down complex UIs into reusable pieces, and efficiently update the DOM through its virtual DOM system.`, 'https://youtu.be/jrBhi8wbzPw?si=ww6OsErnOk7QX2gr');
     createReflection('Lecture 7 – Testing and CI/CD', '', 'https://youtu.be/WbRDkJ4lPdY?si=tgol-xLFjndJvBVh');
     createReflection('Lecture 8 – Scalability and Security', '', 'https://youtu.be/6PWTxRGh_dk?si=G1K0cOmh8erM0QHI');
 
-    // Projects: create tabs for Project 0, 1, and 2
+    // Projects: create tabs for Project 0, 1, 2, and 3
     const projects = [
       {
         id:0,
@@ -632,6 +654,13 @@ I have moved from building a static site in Project 0 to dynamic web apps in Pro
         problemLink:'https://cs50.harvard.edu/web/projects/2/commerce/',
         intro:`Project 2 – Commerce (Auctions)\n\nWhat it’s about:\nBuilding an online auction site with Django.\n\n- Models: at least three (Listings, Bids, Comments) plus User.\n- Features:\n  - Create Listing: title, description, starting bid, optional image and category.\n  - Active Listings Page: shows all current auctions.\n  - Listing Page: details, bidding, watchlist, comments, closing auctions.\n  - Watchlist: personalized list of saved auctions.\n  - Categories: filter listings by category.\n  - Admin Interface: manage listings, bids, comments.\n- Authentication: login, logout, register.\n- Bidding rules: must meet or exceed starting bid and be higher than existing bids.\n- Closing auctions: creator can close, highest bidder wins.`,
         link:'https://github.com/Abd78-0/CS50W/tree/main/commerce'
+      },
+      {
+        id:3,
+        title:'Project 3',
+        problemLink:'https://cs50.harvard.edu/web/projects/3/mail/',
+        intro:`Project 3 – Mail\n\nWhat it’s about:\nBuilding a fully functional single-page email client with JavaScript, HTML, and CSS.\n\n- Compose and send emails directly through the interface, with sent mail automatically appearing in the Sent mailbox.\n- Browse Inbox, Sent, and Archive with each email displayed in its own styled box showing sender, subject, and timestamp.\n- Open any email to see its full details while automatically marking it as read.\n- Archive and unarchive messages with a single click to keep the inbox organized.\n- Reply to emails with a pre-filled composition form that includes recipient, subject, and quoted body.\n- The application communicates with a Django backend through GET, POST, and PUT requests to fetch, send, and update emails.`,
+        link:'https://github.com/Abd78-0/CS50W/tree/main/mail'
       }
     ];
     const tabsRoot = document.getElementById('projectsTabs');
@@ -648,7 +677,7 @@ I have moved from building a static site in Project 0 to dynamic web apps in Pro
         projIntro.textContent = p.intro;
         projIntro.style.whiteSpace = 'pre-wrap';
         projLink.href = p.link;
-        projLink.textContent = p.link === '#' ? 'Add GitHub link' : 'View on GitHub';
+        projLink.textContent = p.link === '#' ? 'Add GitHub link' : 'View my worked solution';
       });
       tabsRoot.appendChild(btn);
     });
